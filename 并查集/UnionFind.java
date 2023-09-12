@@ -31,5 +31,8 @@ class UnionFind{
         }
         return true;
     }
+    boolean connect(int i, int j){
+        return find(i) == find(j);
+    }
 }
 
