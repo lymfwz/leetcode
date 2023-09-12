@@ -27,3 +27,6 @@ class Solution {
         dfs(grid, i, j-1);
     }
 }
+/*
+可以使用并查集也能解决
+*/
