@@ -39,5 +39,32 @@ class Solution {
     }
 }
 /*
-降维 - 采用动态规划
+降维 - 采用动态规划 (超时)
 */
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        int n = envelopes.length;
+        Arrays.sort(envelopes, new Comparator<int[]>(){
+            @Override
+            public int compare(int[] a, int[] b){
+                return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
+            }
+        });
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, 1);
+        for(int i=1;i<n;i++){
+            int num = envelopes[i][1];
+            for(int j=0;j<i;j++){
+                int num2 = envelopes[j][1];
+                if(num > num2){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        int res = 0;
+        for(int d : dp){
+            res = Math.max(res, d);
+        }
+        return res;
+    }
+}
