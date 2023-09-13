@@ -1,3 +1,6 @@
+/*
+同LCR 012.寻找数组中心下标
+*/
 class Solution {
     int[] pre;
     public int pivotIndex(int[] nums) {
@@ -7,8 +10,8 @@ class Solution {
             pre[i+1] = pre[i] + nums[i];
         }
         for(int i=0;i<n;i++){ // 找最左端中心坐标
-            int left = i == 0 ? 0 : pre[i];
-            int right = i == n-1 ? 0 : (pre[n] - pre[i+1]);
+            int left = pre[i];
+            int right = pre[n] - pre[i+1];
             if(left == right){
                 return i;
             }
