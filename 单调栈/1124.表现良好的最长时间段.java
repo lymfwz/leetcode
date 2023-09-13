@@ -1,5 +1,6 @@
 /*
 从左到右降序的单调栈，从后往前遍历找到最长的表现良好的时间段
+==> 子数组“和” > 0 的最长长度
 */
 class Solution {
     public int longestWPI(int[] hours) {
