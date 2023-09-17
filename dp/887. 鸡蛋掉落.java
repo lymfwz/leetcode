@@ -36,3 +36,23 @@ class Solution {
         return memo[k][n];
     }
 }
+/*
+dp[k][m] 表示k个鸡蛋扔m次覆盖了n层 - 最少扔的次数
+*/
+class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        // dp[k][0] = 0;
+        // dp[k][m] 表示k个鸡蛋扔m次覆盖了n层 - 最少扔的次数
+        int m = 0;
+        while(dp[k][m] < n) {
+            m++;
+            for (int j = 1; j <= k; j++) {
+                // 碎了就是j-1个鸡蛋扔了m-1次
+                // 没碎就是j个鸡蛋扔了m-1次
+                dp[j][m] = dp[j - 1][m - 1] + dp[j][m - 1] + 1; // 覆盖楼层数
+            }
+        }
+        return m;
+    }
+}
