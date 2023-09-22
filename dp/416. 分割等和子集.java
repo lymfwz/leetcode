@@ -64,3 +64,30 @@ class Solution {
         return dp[target];
     }
 }
+// 自顶向下
+class Solution {
+    int[][] memo;
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+        for(int i=0;i<n;i++) {
+            sum += nums[i];
+        }
+        if(sum % 2 != 0) return false;
+        int target = sum/2;
+        memo = new int[n][target+1];
+        return dp(nums, 0, target);
+    }
+    public boolean dp(int[] nums, int i, int target) {
+        if(target < 0) return false;
+        if(target == 0) return true;
+        if(i == nums.length) {
+            return false;
+        }
+        if(memo[i][target] != 0) {
+            return memo[i][target] == 1;
+        }
+        memo[i][target] = (dp(nums, i+1, target - nums[i]) || dp(nums, i+1, target)) ? 1 : -1;
+        return memo[i][target] == 1;
+    }
+}
