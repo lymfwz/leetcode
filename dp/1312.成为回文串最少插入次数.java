@@ -6,21 +6,22 @@ class Solution {
     public int minInsertions(String s) {
         int n = s.length();
         memo = new int[n][n];
-        for(int i=0;i<n;i++) Arrays.fill(memo[i], -1);
+        for(int i=0;i<n;i++) {
+            Arrays.fill(memo[i], -1);
+        }
         return dp(s, 0, n-1);
     }
-    public int dp(String s, int i, int j){
-        if(i > j) return 0;
-        if(i == j) return 0;
-        if(memo[i][j] != -1) return memo[i][j];
-        char ch1 = s.charAt(i);
-        char ch2 = s.charAt(j);
-        if(ch1 == ch2) { // 无需修改
-            memo[i][j] = dp(s, i+1, j-1);
-        } else {
-            memo[i][j] = Math.min(dp(s, i, j-1), dp(s, i+1, j)) + 1;
+    public int dp(String s, int l, int r){
+        if(l >= r) return 0;
+        if(memo[l][r] != -1){
+            return memo[l][r];
         }
-        return memo[i][j];
+        if(s.charAt(l) == s.charAt(r)) {
+            memo[l][r] = dp(s, l+1, r-1);
+        } else {
+            memo[l][r] = Math.min(dp(s, l, r-1), dp(s, l+1, r)) + 1;
+        }
+        return memo[l][r];
     }
 }
 /*
