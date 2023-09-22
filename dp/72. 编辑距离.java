@@ -4,31 +4,33 @@
 class Solution {
     int[][] memo;
     public int minDistance(String word1, String word2) {
-        memo = new int[word1.length()+1][word2.length()+1];
-        for(int i=0;i<=word1.length();i++){
+        int m = word1.length();
+        int n = word2.length();
+        memo = new int[m][n];
+        for(int i=0;i<m;i++){
             Arrays.fill(memo[i], -1);
         }
         return dp(word1, 0, word2, 0);
     }
     public int dp(String s, int i, String t, int j){
-        if(i == s.length()){
-            return t.length() - j;
+        if(i == s.length()) return t.length()-j;
+        if(j == t.length()) return s.length()-i;
+        if(memo[i][j]!=-1){
+            return memo[i][j];
         }
-        if(j == t.length()){
-            return s.length() - i;
-        }
-        if(memo[i][j] != -1) return memo[i][j];
-        char ch1 = s.charAt(i);
-        char ch2 = t.charAt(j);
-        if(ch1 == ch2){
-            int ans = dp(s, i+1, t, j+1);
-            memo[i][j] = ans;
+        if(s.charAt(i) == t.charAt(j)){ // 相同字符不用碰
+            memo[i][j] = dp(s, i+1, t, j+1);
         } else {
-            int insertOrDelete = Math.min(dp(s, i, t, j+1), dp(s, i+1, t, j)) + 1;
-            int modify = dp(s, i+1, t, j+1) + 1;
-            memo[i][j] = Math.min(insertOrDelete, modify);
+            memo[i][j] = min(
+                dp(s, i+1, t, j+1) + 1, // 替换
+                dp(s, i, t, j+1) + 1, // 插入或删除
+                dp(s, i+1, t, j) + 1
+            );
         }
         return memo[i][j];
+    }
+    public int min(int a, int b, int c){
+        return Math.min(a, Math.min(b, c));
     }
 }
 /*
