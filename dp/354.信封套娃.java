@@ -4,33 +4,33 @@
 class Solution {
     public int maxEnvelopes(int[][] envelopes) {
         int n = envelopes.length;
-        // w 升序，h降序==> 因为h不可能自己放进去自己（宽度相同时）
-        Arrays.sort(envelopes, new Comparator<int[]>(){
+        Arrays.sort(envelopes, new Comparator<int[]>(){ // 宽度升序，高度降序(保证宽度相同的不放入宽度相同的)
             @Override
-            public int compare(int[] o1, int[] o2){
-                return o1[0] == o2[0] ? o2[1] - o1[1] : o1[0] - o2[0];
+            public int compare(int[] a, int[] b){
+                return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
             }
-        }); 
-        int[] piles = new int[n]; // 牌堆
+        });
+        // 排序之后，找高度升序的最长子序列长度最大值
+        int[] piles = new int[n];
         int end = -1;
         for(int i=0;i<n;i++){
-            int num = envelopes[i][1];
-            int idx = getIndex(piles, num, end);
-            if(idx == end+1){
+            int index = getIndex(piles, end, envelopes[i][1]);
+            if(index > end) {
                 end++;
             }
-            piles[idx] = num;
+            piles[index] = envelopes[i][1];
         }
         return end+1;
     }
-    public int getIndex(int[] piles, int num, int end){
+    public int getIndex(int[] piles, int end, int num){
         int l = 0, r = end;
         int res = -1;
         while(l <= r){
-            int mid = l + ((r-l)>>1);
+            int mid = l + (r-l)/2;
+            // 2,来3什么情况
             if(piles[mid] >= num){
                 res = mid;
-                r = mid - 1;
+                r = mid -1;
             } else {
                 l = mid + 1;
             }
