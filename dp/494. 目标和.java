@@ -40,7 +40,7 @@ class Solution {
             return 0;
         }
         if(i == nums.length) {
-            if(target == 0) {
+            if(target == 0) { // 在i==nums.length时才判断是为了保证0也被使用到
                 return 1;
             }
             return 0;
