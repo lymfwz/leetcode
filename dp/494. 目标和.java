@@ -23,3 +23,34 @@ class Solution {
         return dp[n][target];
     }
 }
+// 自顶向下
+class Solution {
+    Map<String, Integer> map = new HashMap<>();
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        int sum = 0;
+        for(int i=0;i<n;i++) sum += nums[i];
+        if((sum + target) < 0 || (sum + target) % 2 != 0) {
+            return 0;
+        }
+        return dp(nums, 0, (sum + target)/2);
+    }
+    public int dp(int[] nums, int i, int target) {
+        if(target < 0) {
+            return 0;
+        }
+        if(i == nums.length) {
+            if(target == 0) {
+                return 1;
+            }
+            return 0;
+        }
+        String key = i + "_" + target; 
+        if(map.containsKey(key)){
+            return map.get(key);
+        }
+        int ans = dp(nums, i+1, target - nums[i]) + dp(nums, i+1, target);
+        map.put(key, ans);
+        return ans;
+    }
+}
